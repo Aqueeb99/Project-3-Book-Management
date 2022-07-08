@@ -16,6 +16,7 @@ const Authentication = async function (req, res, next) {
             : "Token is invalid";
         return res.status(401).send({ status: false, msg });
       }
+      req.headers["userId"] = decodedToken.userId
 
       next();
     });

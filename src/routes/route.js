@@ -11,9 +11,6 @@ router.post(
   validation.validationForUser,
   userController.registerUser
 );
-<<<<<<< HEAD
-router.post("/books",bookController.registerBook);
-=======
 
 router.post(
   "/books",
@@ -21,7 +18,6 @@ router.post(
   validation.validationForBook,
   bookController.registerBook
 );
->>>>>>> e25da0d4c67b9079cbcdb055dcdce2c89d2f0340
 
 router.post("/login", userController.loginUser);
 

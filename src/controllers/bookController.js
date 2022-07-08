@@ -19,7 +19,7 @@ const registerBook = async function (req, res) {
         .send({ status: false, message: "User not exists" });
 
     const book = await bookModel.create(body);
-    // const newBook = { ...book.toJSON(), releasedAt };
+     const newBook = { ...book.toJSON(), releasedAt };
 
     return res
       .status(201)
