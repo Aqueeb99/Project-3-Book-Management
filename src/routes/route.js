@@ -4,7 +4,7 @@ const userController = require("../controllers/userController");
 const bookController = require("../controllers/bookController");
 const middlewares = require("../middlewares/auth");
 const validation = require("../validator/validation");
-const middleWare = require("../Middlewares/middleWare")
+
 
 router.post(
   "/register",

@@ -16,12 +16,7 @@ const Authentication = async function (req, res, next) {
             : "Token is invalid";
         return res.status(401).send({ status: false, msg });
       }
-<<<<<<< HEAD
-      req.headers["userId"] = decodedToken.userId
-
-=======
       req.headers["userId"] = response.userId;
->>>>>>> eea63e831ba9ddb087f9f5853b9ae6a6e8e6cfa1
       next();
     });
   } catch (err) {

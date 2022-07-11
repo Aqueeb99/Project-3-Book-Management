@@ -27,6 +27,8 @@ const validationForUser = async function (req, res, next) {
     let data = req.body;
     let { title, name, phone, email, password, address } = data;
 
+
+
     let allowedTitles = ["Mr", "Mrs", "Miss"];
 
     if (!isValid(data))
@@ -34,7 +36,7 @@ const validationForUser = async function (req, res, next) {
         .status(400)
         .send({ status: false, message: "Missing Parameters" });
 
-    if (!title)
+    if (!title )  //
       return res
         .status(400)
         .send({ status: false, message: "Title is required" });
@@ -42,22 +44,22 @@ const validationForUser = async function (req, res, next) {
       return res
         .status(400)
         .send({ status: false, message: "Title is in wrong format" });
-    else if (!allowedTitles.includes(title))
+    else if (!allowedTitles.includes(title.trim()))
       return res.status(400).send({
         status: false,
         message: "Title must be among Mr , Mrs , Miss",
       });
 
-    if (!name)
+    if (!name ) //
       return res
         .status(400)
         .send({ status: false, message: "Name is required" });
-    else if (!isValidValue(name) || !azValid(name))
+    else if (!isValidValue(name) || !azValid(name)  )
       return res
         .status(400)
         .send({ status: false, message: "Name is in wrong format" });
 
-    if (!phone)
+    if (!phone ) //
       return res
         .status(400)
         .send({ status: false, message: "Phone is required" });
@@ -74,7 +76,7 @@ const validationForUser = async function (req, res, next) {
         message: `${phone} is already in use`,
       });
 
-    if (!email)
+    if (!email ) //
       return res
         .status(400)
         .send({ status: false, message: "Email is required" });
@@ -93,7 +95,7 @@ const validationForUser = async function (req, res, next) {
         message: `${email} is already in use`,
       });
 
-    if (!password)
+    if (!password ) //
       return res
         .status(400)
         .send({ status: false, message: "Password is required" });
@@ -164,7 +166,7 @@ const validationForBook = async function (req, res, next) {
         .status(400)
         .send({ status: false, message: "Missing Parameters" });
 
-    if (!title)
+    if (!title ) 
       return res
         .status(400)
         .send({ status: false, message: "Title is required" });
@@ -231,15 +233,15 @@ const validationForBook = async function (req, res, next) {
       return res
         .status(400)
         .send({ status: false, message: "Subcategory should not be empty" });
-    else {
-      let isValidsubcategory = true;
-      subcategory.forEach((sub) => {
-        isValidsubcategory &&= azValid(sub);
-      });
+     else {
+       let isValidsubcategory = true;
+      // subcategory.forEach((sub) => {                         //no need
+      //   isValidsubcategory &&= azValid(sub);
+      // });
       if (!isValidsubcategory)
         return res
           .status(400)
-          .send({ status: false, message: "Subcategory is in wrong format" });
+          .send({ status: false, message: "Subcategory is in wrong format" }); 
     }
 
     if (!releasedAt)
@@ -247,18 +249,18 @@ const validationForBook = async function (req, res, next) {
         .status(400)
         .send({ status: false, message: "releasedAt is required" });
 
-    if (!moment(releasedAt).isValid())
+    if (!moment(releasedAt).isValid())   //why?
       return res.status(400).send({ status: false, message: "Invalid Parameter" });
 
     if (reviews && isNaN(reviews))
       return res
         .status(400)
-        .send({ status: false, message: "Reviews is in wrong format" });
+        .send({ status: false, message: "Reviews is in wrong format" }); 
 
     if (isDeleted && typeof isDeleted !== "boolean")
       return res
         .status(400)
-        .send({ status: false, message: "isDeleted is in wrong format" });
+        .send({ status: false, message: "isDeleted is in wrong format" }); 
   } catch (error) {
     return res.status(500).send({ status: false, message: error.message });
   }
@@ -275,18 +277,42 @@ const validationForUpdatedBook = async function (req, res, next) {
         .status(400)
         .send({ status: false, message: "Missing Parameters" });
 
-    if (title && !isValidValue(title))
+if(title=="")
+return res.status(400).send({ status: false, message: "Give data to update" });
+    // if (!title ) 
+    //   return res
+    //     .status(400)
+    //     .send({ status: false, message: "Title is required" });
+    if (title && !isValidValue(title))    //need validation for empty title
       return res
         .status(400)
-        .send({ status: false, message: "Title is wrong format" });
+        .send({ status: false, message: "Title is in wrong format" });
+        // if (!excerpt)
+        // return res
+        //   .status(400)
+        //   .send({ status: false, message: "Excerpt is required" });
+        if(excerpt=="")
+return res.status(400).send({ status: false, message: "Give data to update" });
     if (excerpt && !isValidValue(excerpt))
       return res
         .status(400)
         .send({ status: false, message: "excerpt is in wrong format" });
+        // if (!releasedAt)
+        // return res
+        //   .status(400)
+        //   .send({ status: false, message: "releasedAt is required" });
+        if(releasedAt=="")
+        return res.status(400).send({ status: false, message: "Give data to update" });
     if (releasedAt && !isValidValue(releasedAt))
       return res
         .status(400)
         .send({ status: false, message: "releasedAt is in wrong format" });
+        // if (!ISBN)
+        // return res
+        //   .status(400)
+        //   .send({ status: false, message: "ISBN is required" })
+        if(ISBN=="")
+        return res.status(400).send({ status: false, message: "Give data to update" });
     if (ISBN && !isValidValue(ISBN))
       return res
         .status(400)

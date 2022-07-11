@@ -1,5 +1,5 @@
 const bookModel = require("../models/bookModel");
-const moment = require("moment");
+const moment = require("moment");    // delete it
 const mongoose = require("mongoose");
 const userModel = require("../models/userModel");
 const ObjectId = mongoose.Types.ObjectId;
@@ -26,11 +26,7 @@ const registerBook = async function (req, res) {
         .send({ status: false, msg: "You are not authorized...." });
 
     const book = await bookModel.create(body);
-<<<<<<< HEAD
-     const newBook = { ...book.toJSON(), releasedAt };
-=======
     // const newBook = { ...book.toJSON() };
->>>>>>> eea63e831ba9ddb087f9f5853b9ae6a6e8e6cfa1
 
     return res
       .status(201)
@@ -40,7 +36,7 @@ const registerBook = async function (req, res) {
   }
 };
 
-const getBook = async function (req, res) {
+const getBook = async function (req, res) {             //taking other docs too by using userid
   try {
     let { userId, category, subcategory } = req.query;
     let query = { isDeleted: false };
@@ -52,15 +48,15 @@ const getBook = async function (req, res) {
 
     if (category) query.category = category;
     if (subcategory) {
-      const newSubcategory = subcategory.split(",").map((ele) => ele.trim());
-      query.subcategory = { $all: newSubcategory };
+      const newSubcategory = subcategory.split(",").map((ele) => ele.trim()); //trim not working
+      query.subcategory = { $all: newSubcategory };  //no need of using all
     }
     let book = await bookModel
       .find(query)
       .select({
         ISBN: 0,
         subcategory: 0,
-        __v: 0,
+        __v: 0,              // no need
         isDeleted: 0,
         createdAt: 0,
         updatedAt: 0,
@@ -95,7 +91,7 @@ const getBooksByParams = async function (req, res) {
     .send({ status: true, message: "Book List", data: newBook });
 };
 
-const updateBooks = async function (req, res) {
+const updateBooks = async function (req, res) {     
   try {
     let bookId = req.params.bookId;
     if (bookId && !ObjectId.isValid(bookId))
