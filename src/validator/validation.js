@@ -249,8 +249,15 @@ const validationForBook = async function (req, res, next) {
         .status(400)
         .send({ status: false, message: "releasedAt is required" });
 
+<<<<<<< HEAD
     if (!moment(releasedAt).isValid())   //why?
       return res.status(400).send({ status: false, message: "Invalid Parameter" });
+=======
+    if (!moment(releasedAt).isValid())
+      return res
+        .status(400)
+        .send({ status: false, message: "Invalid Parameter" });
+>>>>>>> 97afb09daeea61c6d8dc48a6fce34e5a81dad0b1
 
     if (reviews && isNaN(reviews))
       return res
@@ -277,6 +284,7 @@ const validationForUpdatedBook = async function (req, res, next) {
         .status(400)
         .send({ status: false, message: "Missing Parameters" });
 
+<<<<<<< HEAD
 if(title=="")
 return res.status(400).send({ status: false, message: "Give data to update" });
     // if (!title ) 
@@ -314,14 +322,131 @@ return res.status(400).send({ status: false, message: "Give data to update" });
         if(ISBN=="")
         return res.status(400).send({ status: false, message: "Give data to update" });
     if (ISBN && !isValidValue(ISBN))
+=======
+    if (title != undefined && !isValidValue(title)) {
       return res
         .status(400)
-        .send({ status: false, message: "ISBN is in wrong format" });
+        .send({ status: false, message: "Title should not be empty" });
+    }
+
+    if (excerpt != undefined && !isValidValue(excerpt))
+      return res
+        .status(400)
+        .send({ status: false, message: "Expert should not be empty" });
+
+    if (releasedAt != undefined && !isValidValue(releasedAt))
+      return res
+        .status(400)
+        .send({ status: false, message: "Releasedat should not be empty" });
+
+    if (ISBN != undefined && !isValidValue(ISBN))
+>>>>>>> 97afb09daeea61c6d8dc48a6fce34e5a81dad0b1
+      return res
+        .status(400)
+        .send({ status: false, message: "ISBN should not be empty" });
   } catch (error) {
     return res.status(500).send({ status: false, message: error.message });
   }
   next();
 };
+
+const validationForReview = async function (req, res, next) {
+  try {
+    let data = req.body;
+    let bookId = req.params.bookId;
+    let { rating, review, reviewedBy } = data;
+
+    if (!isValid(data))
+      return res
+        .status(400)
+        .send({ status: false, message: "Missing Parameters" });
+
+    if (!ObjectId.isValid(bookId)) {
+      return res
+        .status(400)
+        .send({ status: false, message: "BookId is not valid" });
+    }
+    if (!rating)
+      return res
+        .status(400)
+        .send({ status: false, message: "Rating is required" });
+    else if (isNaN(rating))
+      return res
+        .status(400)
+        .send({ status: false, message: "Rating is in wrong format" });
+
+    if (!review)
+      return res
+        .status(400)
+        .send({ status: false, message: "Review is required" });
+
+    if (!isValidValue(review))
+      return res
+        .status(400)
+        .send({ status: false, message: "Review is in wrong format" });
+
+    if (
+      reviewedBy !== undefined &&
+      (!isValidValue(reviewedBy) || !azValid(reviewedBy))
+    ) {
+      return res
+        .status(400)
+        .send({ status: false, message: "ReviewBy is in wrong format" });
+    }
+  } catch (error) {
+    return res.status(500).send({ status: false, message: error.message });
+  }
+  next();
+};
+
+const validationUpdateReview = async function (req, res, next) {
+  try {
+    let data = req.body;
+    let bookId = req.params.bookId;
+    let reviewId = req.params.reviewId;
+    let { rating, review, reviewedBy } = data;
+
+    if (!isValid(data))
+      return res
+        .status(400)
+        .send({ status: false, message: "Missing Parameters" });
+
+    if (!ObjectId.isValid(bookId)) {
+      return res
+        .status(400)
+        .send({ status: false, message: "BookId is not valid" });
+    }
+
+    if (!ObjectId.isValid(reviewId)) {
+      return res
+        .status(400)
+        .send({ status: false, message: "ReviewId is not valid" });
+    }
+
+    if (rating && isNaN(rating))
+      return res
+        .status(400)
+        .send({ status: false, message: "Rating is in wrong format" });
+
+    if (review && !isValidValue(review))
+      return res
+        .status(400)
+        .send({ status: false, message: "Review is in wrong format" });
+
+    if (
+      reviewedBy !== undefined &&
+      (!isValidValue(reviewedBy) || !azValid(reviewedBy))
+    ) {
+      return res
+        .status(400)
+        .send({ status: false, message: "ReviewBy is in wrong format" });
+    }
+  } catch (error) {
+    return res.status(500).send({ status: false, message: error.message });
+  }
+  next();
+};
+
 
 module.exports = {
   validationForUser,
@@ -329,4 +454,6 @@ module.exports = {
   isValid,
   isValidValue,
   validationForUpdatedBook,
+  validationForReview,
+  validationUpdateReview,
 };
