@@ -30,7 +30,7 @@ const createReviews = async function (req, res) {
 
     const bookReviews = await bookModel.findOneAndUpdate(
       { _id: bookId },
-      { $inc: { reviews: 1 } },
+      { $inc: { reviews: 1 } },       //review
       { new: true }
     );
     bookReviews.reviewsData = review;

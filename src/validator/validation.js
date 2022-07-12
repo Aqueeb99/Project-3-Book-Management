@@ -284,45 +284,6 @@ const validationForUpdatedBook = async function (req, res, next) {
         .status(400)
         .send({ status: false, message: "Missing Parameters" });
 
-<<<<<<< HEAD
-if(title=="")
-return res.status(400).send({ status: false, message: "Give data to update" });
-    // if (!title ) 
-    //   return res
-    //     .status(400)
-    //     .send({ status: false, message: "Title is required" });
-    if (title && !isValidValue(title))    //need validation for empty title
-      return res
-        .status(400)
-        .send({ status: false, message: "Title is in wrong format" });
-        // if (!excerpt)
-        // return res
-        //   .status(400)
-        //   .send({ status: false, message: "Excerpt is required" });
-        if(excerpt=="")
-return res.status(400).send({ status: false, message: "Give data to update" });
-    if (excerpt && !isValidValue(excerpt))
-      return res
-        .status(400)
-        .send({ status: false, message: "excerpt is in wrong format" });
-        // if (!releasedAt)
-        // return res
-        //   .status(400)
-        //   .send({ status: false, message: "releasedAt is required" });
-        if(releasedAt=="")
-        return res.status(400).send({ status: false, message: "Give data to update" });
-    if (releasedAt && !isValidValue(releasedAt))
-      return res
-        .status(400)
-        .send({ status: false, message: "releasedAt is in wrong format" });
-        // if (!ISBN)
-        // return res
-        //   .status(400)
-        //   .send({ status: false, message: "ISBN is required" })
-        if(ISBN=="")
-        return res.status(400).send({ status: false, message: "Give data to update" });
-    if (ISBN && !isValidValue(ISBN))
-=======
     if (title != undefined && !isValidValue(title)) {
       return res
         .status(400)
@@ -340,7 +301,6 @@ return res.status(400).send({ status: false, message: "Give data to update" });
         .send({ status: false, message: "Releasedat should not be empty" });
 
     if (ISBN != undefined && !isValidValue(ISBN))
->>>>>>> 97afb09daeea61c6d8dc48a6fce34e5a81dad0b1
       return res
         .status(400)
         .send({ status: false, message: "ISBN should not be empty" });
