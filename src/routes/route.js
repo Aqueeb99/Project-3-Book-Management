@@ -20,7 +20,7 @@ router.post(
   bookController.registerBook
 );
 
-router.post("/login", userController.loginUser);
+router.post("/login", validation.validationForLogin, userController.loginUser);
 
 router.get("/books", middlewares.Authentication, bookController.getBook);
 router.get(
