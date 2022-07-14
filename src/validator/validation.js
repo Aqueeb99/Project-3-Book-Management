@@ -38,7 +38,7 @@ const validationForUser = async function (req, res, next) {
         .status(400)
         .send({ status: false, message: "Missing Parameters" });
 
-    if (!title )  //
+    if (!title )  
       return res
         .status(400)
         .send({ status: false, message: "Title is required" });
@@ -52,20 +52,16 @@ const validationForUser = async function (req, res, next) {
         message: "Title must be among Mr , Mrs , Miss",
       });
 
-    if (!name ) //
+    if (!name ) 
       return res
         .status(400)
         .send({ status: false, message: "Name is required" });
-<<<<<<< HEAD
-    else if (!isValidValue(name) || !azValid(name)  )
-=======
     else if (!hasEmptyString(name) || !stringContainNumber(name))
->>>>>>> 1db2754fd56090e840c690cc32b245c0fbde3a24
       return res
         .status(400)
         .send({ status: false, message: "Name is in wrong format" });
 
-    if (!phone ) //
+    if (!phone ) 
       return res
         .status(400)
         .send({ status: false, message: "Phone is required" });
@@ -82,7 +78,7 @@ const validationForUser = async function (req, res, next) {
         message: `${phone} is already in use`,
       });
 
-    if (!email ) //
+    if (!email ) 
       return res
         .status(400)
         .send({ status: false, message: "Email is required" });
@@ -101,7 +97,7 @@ const validationForUser = async function (req, res, next) {
         message: `${email} is already in use`,
       });
 
-    if (!password ) //
+    if (!password ) 
       return res
         .status(400)
         .send({ status: false, message: "Password is required" });
@@ -138,15 +134,15 @@ const validationForUser = async function (req, res, next) {
           message: "Street should be present with correct format",
         });
       } else if (
-        (address.city && !hasEmptyString(address.city)) ||
-        !stringContainNumber(address.city)
+        address.city !== undefined && (!hasEmptyString(address.city) ||
+        !stringContainNumber(address.city))
       ) {
         return res.status(400).send({
           status: false,
           message: "City should be present with correct format",
         });
       } else if (
-        address.pincode &&
+        address.pincode !== undefined &&
         (!hasEmptyString(address.pincode) ||
           !/^(\d{4}|\d{6})$/.test(address.pincode))
       ) {
@@ -270,46 +266,28 @@ const validationForBook = async function (req, res, next) {
       return res
         .status(400)
         .send({ status: false, message: "Subcategory should not be empty" });
-<<<<<<< HEAD
      else {
-       let isValidsubcategory = true;
-      // subcategory.forEach((sub) => {                         //no need
-      //   isValidsubcategory &&= azValid(sub);
-      // });
-=======
-    else {
-      let isValidsubcategory = true;
+    
       subcategory.forEach((sub) => {
-        isValidsubcategory &&= stringContainNumber(sub);
+        if (!stringContainNumber(sub))
+          return res
+            .status(400)
+            .send({ status: false, message: "Subcategory is in wrong format" });
       });
->>>>>>> 1db2754fd56090e840c690cc32b245c0fbde3a24
-      if (!isValidsubcategory)
-        return res
-          .status(400)
-          .send({ status: false, message: "Subcategory is in wrong format" }); 
+ 
     }
 
     if (!releasedAt)
       return res
         .status(400)
         .send({ status: false, message: "releasedAt is required" });
-<<<<<<< HEAD
 
-<<<<<<< HEAD
-    if (!moment(releasedAt).isValid())   //why?
-      return res.status(400).send({ status: false, message: "Invalid Parameter" });
-=======
-    if (!moment(releasedAt).isValid())
-      return res
-        .status(400)
-        .send({ status: false, message: "Invalid Parameter" });
->>>>>>> 97afb09daeea61c6d8dc48a6fce34e5a81dad0b1
-=======
+
     else if (!moment(releasedAt).isValid())
       return res
         .status(400)
         .send({ status: false, message: "Invalid release date" });
->>>>>>> 1db2754fd56090e840c690cc32b245c0fbde3a24
+
 
     if (reviews && isNaN(reviews))
       return res
@@ -397,7 +375,7 @@ const validationForReview = async function (req, res, next) {
         .status(400)
         .send({ status: false, message: "Rating must be from 1 to 5" });
 
-    if (review && !hasEmptyString(review))
+    if (review && !hasEmptyString(review))    
       return res
         .status(400)
         .send({ status: false, message: "Review is in wrong format" });

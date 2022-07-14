@@ -1,9 +1,4 @@
 const bookModel = require("../models/bookModel");
-<<<<<<< HEAD
-const moment = require("moment");    // delete it
-const mongoose = require("mongoose");
-=======
->>>>>>> 1db2754fd56090e840c690cc32b245c0fbde3a24
 const userModel = require("../models/userModel");
 const reviewModel = require("../models/reviewsmodel");
 const mongoose = require("mongoose");
@@ -35,12 +30,8 @@ const registerBook = async function (req, res) {
   }
 };
 
-<<<<<<< HEAD
-const getBook = async function (req, res) {             //taking other docs too by using userid
-=======
 // .................................. Get Book  .............................//
 const getBook = async function (req, res) {
->>>>>>> 1db2754fd56090e840c690cc32b245c0fbde3a24
   try {
     let { userId, category, subcategory } = req.query;
     let query = { isDeleted: false };
@@ -53,8 +44,8 @@ const getBook = async function (req, res) {
     if (category) query.category = category;
     
     if (subcategory) {
-      const newSubcategory = subcategory.split(",").map((ele) => ele.trim()); //trim not working
-      query.subcategory = { $all: newSubcategory };  //no need of using all
+      const newSubcategory = subcategory.split(",").map((ele) => ele.trim()); 
+      query.subcategory = { $all: newSubcategory };  
     }
     
     let book = await bookModel
@@ -62,11 +53,13 @@ const getBook = async function (req, res) {
       .select({
         ISBN: 0,
         subcategory: 0,
-        __v: 0,              // no need
+        __v: 0,             
         isDeleted: 0,
         createdAt: 0,
         updatedAt: 0,
       })
+      .collation({ locale: "en" })
+
       .sort({ title: 1 });
 
     if (book.length === 0) {
@@ -118,12 +111,8 @@ const getBooksByParams = async function (req, res) {
   }
 };
 
-<<<<<<< HEAD
-const updateBooks = async function (req, res) {     
-=======
 // .................................. Update Book  .............................//
 const updateBooks = async function (req, res) {
->>>>>>> 1db2754fd56090e840c690cc32b245c0fbde3a24
   try {
     let bookId = req.params.bookId;
     if (bookId && !ObjectId.isValid(bookId))
@@ -211,7 +200,7 @@ const deleteBook = async function (req, res) {
         .send({ status: false, message: "The book does not exist" });
     else if (deleteBook.isDeleted) {
       return res
-        .status(200)
+        .status(404)
         .send({ status: false, message: "The book is already deleted" });
     } else {
       return res

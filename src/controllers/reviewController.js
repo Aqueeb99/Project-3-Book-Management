@@ -9,7 +9,7 @@ const createReviews = async function (req, res) {
     let body = req.body;
     let bookId = req.params.bookId;
 
-    body.bookId = bookId;
+     body.bookId = bookId;     
     if (!body.reviewedBy) body.reviewedBy = "Guest";
     else {
       body.reviewedBy;
@@ -30,22 +30,16 @@ const createReviews = async function (req, res) {
     if (!book)
       return res
         .status(400)
-        .send({ status: false, message: "Book is not exist" });
+        .send({ status: false, message: "Book does not exist" });
 
     if (book.isDeleted)
       return res
         .status(400)
         .send({ status: false, message: "Book is deleted" });
 
-<<<<<<< HEAD
-    const bookReviews = await bookModel.findOneAndUpdate(
-      { _id: bookId },
-      { $inc: { reviews: 1 } },       //review
-=======
     const bookUpdateWithReviews = await bookModel.findOneAndUpdate(
       { _id: bookId, isDeleted: false },
-      { $inc: { reviews: 1 } },
->>>>>>> 1db2754fd56090e840c690cc32b245c0fbde3a24
+      { $inc: { reviews: 1 } },    
       { new: true }
     ).select({__v:0});
     bookUpdateWithReviews.reviewsData = newReview;
@@ -133,7 +127,7 @@ const deleteReview = async function (req, res) {
     if (!bookDetails)
       return res
         .status(404)
-        .send({ status: false, message: "The book is not exist" });
+        .send({ status: false, message: "The book does not exist" });
 
     const reviewDetails = await reviewModel.findOne({
       _id: reviewId,
@@ -145,7 +139,7 @@ const deleteReview = async function (req, res) {
         .send({ status: false, message: "The review should be of corresponding book" });
     else if (reviewDetails.isDeleted)
       return res
-        .status(200)
+        .status(404)
         .send({ status: false, message: "The review is already deleted" });
     else {
       reviewDetails.isDeleted = true;
